@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: privileged-daemonset
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: pid-configure-pod
+  template:
+    metadata:
+      labels:
+        app: pid-configure-pod
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: centos
+        image: centos
+        command: ['sh', '-c', 'sysctl -w  kernel.pid_max=4194303']
+        securityContext:
+          privileged: true
