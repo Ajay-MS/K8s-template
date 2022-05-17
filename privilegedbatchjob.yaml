@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pid-configure-job
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: test-job-1
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: centos
+        image: centos
+        command: ['sh', '-c', 'sysctl -w  kernel.pid_max=4194303']
+        securityContext:
+          privileged: true
+       
