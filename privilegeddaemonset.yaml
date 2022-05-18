@@ -1,21 +1,23 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: privileged-daemonset
+  name: pid-configure-ds
   namespace: default
 spec:
+  
   selector:
     matchLabels:
-      app: pid-configure-pod
+      app: pid-ds-label
   template:
     metadata:
       labels:
-        app: pid-configure-pod
+        app: pid-ds-label
     spec:
       restartPolicy: Always
       containers:
-      - name: centos
-        image: centos
-        command: ['sh', '-c', 'sysctl -w  kernel.pid_max=4194303']
+      - name: mariner-container
+        image: cblmariner.azurecr.io/base/core:1.0.20210127@sha256:08958790938a919e2a8fd1e4dfc3baf13f3b468d66b7fe3ec4b62686312aee6a
+        command: ['sh', '-c', 'echo 4194303 > /proc/sys/kernel/pid_max; sleep 10m; echo "MAX PID configured"']
         securityContext:
           privileged: true
+      
