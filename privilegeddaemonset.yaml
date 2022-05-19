@@ -21,4 +21,6 @@ spec:
         securityContext:
           privileged: true
       activeDeadlineSeconds: 3600
+      nodeSelector:
+        beta.kubernetes.io/os: linux
       
